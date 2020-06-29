@@ -1,14 +1,13 @@
 const express = require('express')
-const exphbs = require('express-handlebars')
+const handlebars = require('express-handlebars')
+const db = require('./models') // 引入資料庫
 const app = express()
-const PORT = 3000
+const port = 3000
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
-
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`)
+})
 
 require('./routes')(app)
-
-app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`)
-})

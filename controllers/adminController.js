@@ -1,9 +1,11 @@
 const db = require('../models')
-const User = db.User
+const Restaurant = db.Restaurant
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return res.render('admin/restaurants')
+    return Restaurant.findAll({ raw: true }).then(restaurants => {
+      return res.render('admin/restaurants', { restaurants })
+    })
   }
 }
 

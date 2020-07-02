@@ -74,6 +74,9 @@ const adminController = {
     if (file) {
       fs.readFile(file.path, (err, data) => {
         if (err) console.log('Error: ', err)
+        console.log(file)
+        console.log(file.path)
+        console.log(`upload/${file.originalname}`)
         fs.writeFile(`upload/${file.originalname}`, data, () => {
           return Restaurant.findByPk(req.params.id)
             .then((restaurant) => {

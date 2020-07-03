@@ -12,6 +12,10 @@ const port = process.env.PORT || 3000
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }))
 app.use(flash())
 app.use(passport.initialize())

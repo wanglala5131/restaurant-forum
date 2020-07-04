@@ -123,7 +123,7 @@ const adminController = {
     return User.findAll({ raw: true }).then(users => {
       //更改isAdmin的顯示
       for (let i = 0; i < users.length; i++) {
-        //將1顯示成admin 0顯示成user
+
         if (users[i].isAdmin) {
           users[i].isAdmin = 'admin'
           users[i].setAs = 'set as user'

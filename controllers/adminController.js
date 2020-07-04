@@ -124,7 +124,7 @@ const adminController = {
       //更改isAdmin的顯示
       for (let i = 0; i < users.length; i++) {
         //將1顯示成admin 0顯示成user
-        if (users[i].isAdmin === 1) {
+        if (users[i].isAdmin) {
           users[i].isAdmin = 'admin'
           users[i].setAs = 'set as user'
         } else {
@@ -138,7 +138,7 @@ const adminController = {
   putUsers: (req, res) => {
     //users.handlebars有將root@example.com鎖住不能改admin，避免全部都被改成user
     return User.findByPk(req.params.id).then((user) => {
-      if (user.isAdmin === true) {
+      if (user.isAdmin) {
         return user.update({
           isAdmin: false,
           updatedAt: new Date() //更新時間

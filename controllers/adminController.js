@@ -1,5 +1,6 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -117,6 +118,44 @@ const adminController = {
             res.redirect('/admin/restaurants')
           })
       })
+  },
+  getUsers: (req, res) => {
+    return User.findAll({ raw: true }).then(users => {
+      //更改isAdmin的顯示
+      for (let i = 0; i < users.length; i++) {
+        //將1顯示成admin 0顯示成user
+        if (users[i].isAdmin === 1) {
+          users[i].isAdmin = 'admin'
+          users[i].setAs = 'set as user'
+        } else {
+          users[i].isAdmin = 'user'
+          users[i].setAs = 'set as admin'
+        }
+      }
+      return res.render('admin/users', { users, user: req.user, isAuthenticated: req.isAuthenticated })
+    })
+  },
+  putUsers: (req, res) => {
+    //users.handlebars有將root@example.com鎖住不能改admin，避免全部都被改成user
+    return User.findByPk(req.params.id).then((user) => {
+      if (user.isAdmin === true) {
+        return user.update({
+          isAdmin: false,
+          updatedAt: new Date() //更新時間
+        }).then(() => {
+          req.flash('success_messages', 'User was successfully to update')
+          res.redirect('/admin/users')
+        })
+      } else {
+        return user.update({
+          isAdmin: true,
+          updatedAt: new Date()  //更新時間
+        }).then(() => {
+          req.flash('success_messages', 'User was successfully to update')
+          res.redirect('/admin/users')
+        })
+      }
+    })
   }
 }
 

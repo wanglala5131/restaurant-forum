@@ -9,7 +9,12 @@ const db = require('./models') // 引入資料庫
 const app = express()
 const port = process.env.PORT || 3000
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main',
+  helpers: {
+    equal: function (v1, v2) { return (v1 === v2) }
+  }
+}))
 app.set('view engine', 'handlebars')
 
 if (process.env.NODE_ENV !== 'production') {

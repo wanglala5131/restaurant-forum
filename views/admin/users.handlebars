@@ -25,13 +25,20 @@
       <td>{{this.email}}</td>
       <td>{{this.isAdmin}}</td>
       <td>
-        {{#if (equal this.email 'root@example.com')}}
+        {{#ifEqual this.email 'root@example.com'}}
+        <span style="padding: 6px 12px; font-size: 0.9rem;">Unmodifiable</span>
+        {{else}}
+        <form action="/admin/users/{{../this.id}}?_method=PUT" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-link">{{../this.setAs}}</button>
+        </form>
+        {{/ifEqual}}
+        {{!-- {{#if (equal this.email 'root@example.com')}}
         <span style="padding: 6px 12px; font-size: 0.9rem;">Unmodifiable</span>
         {{else}}
         <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
           <button type="submit" class="btn btn-link">{{this.setAs}}</button>
         </form>
-        {{/if}}
+        {{/if}} --}}
       </td>
     </tr>
     {{/each}}

@@ -15,7 +15,12 @@ const adminController = {
 
   // 新增
   createRestaurant: (req, res) => {
-    return res.render('admin/create')
+    Category.findAll({
+      raw: true,
+      nest: true
+    }).then(categories => {
+      return res.render('admin/create', { categories: categories })
+    })
   },
   postRestaurant: (req, res) => {
     if (!req.body.name) {
@@ -34,6 +39,7 @@ const adminController = {
           opening_hour: req.body.opening_hour,
           description: req.body.description,
           image: file ? img.data.link : null,
+          CategoryId: req.body.categoryId
         }).then((restaurant) => {
           req.flash('success_messages', 'restaurant was successfully created')
           return res.redirect('/admin/restaurants')
@@ -47,7 +53,8 @@ const adminController = {
         address: req.body.address,
         opening_hour: req.body.opening_hour,
         description: req.body.description,
-        image: null
+        image: null,
+        CategoryId: req.body.categoryId
       }).then((restaurant) => {
         req.flash('success_messages', 'restaurant was successfully created')
         return res.redirect('/admin/restaurants')

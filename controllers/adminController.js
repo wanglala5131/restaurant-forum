@@ -71,7 +71,9 @@ const adminController = {
   },
   editRestaurant: (req, res) => {
     return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => {
-      return res.render('admin/create', { restaurant: restaurant })
+      Category.findAll({ raw: true }).then(categories => {
+        return res.render('admin/create', { restaurant: restaurant, categories: categories })
+      })
     })
   },
   putRestaurant: (req, res) => {
@@ -93,6 +95,7 @@ const adminController = {
               opening_hour: req.body.opening_hour,
               description: req.body.description,
               image: file ? img.data.link : restaurant.image,
+              CategoryId: req.body.categoryId
             })
               .then((restaurant) => {
                 req.flash('success_messages', 'restaurant was successfully to update')
@@ -110,7 +113,8 @@ const adminController = {
             address: req.body.address,
             opening_hour: req.body.opening_hour,
             description: req.body.description,
-            image: restaurant.image
+            image: restaurant.image,
+            CategoryId: req.body.categoryId
           })
             .then((restaurant) => {
               req.flash('success_messages', 'restaurant was successfully to update')

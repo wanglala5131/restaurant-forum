@@ -5,14 +5,29 @@ const Category = db.Category
 
 const restController = {
   getRestaurants: (req, res) => {
-    Restaurant.findAll({ include: Category }).then(restaurants => {
+    //篩選功能
+    let whereQuery = {}
+    let categoryId = ''
+    if (req.query.categoryId) {
+      categoryId = Number(req.query.categoryId)
+      whereQuery['CategoryId'] = categoryId
+    }
+    Restaurant.findAll({ include: Category, where: whereQuery }).then(restaurants => {
+      //餐廳卡片截短文字+個別顯示
       const data = restaurants.map(r => ({
         ...r.dataValues,
         description: r.dataValues.description.substring(0, 50),
         categoryName: r.Category.name
       }))
-      return res.render('restaurants', {
-        restaurants: data
+      Category.findAll({
+        raw: true,
+        nest: true
+      }).then(categories => {
+        return res.render('restaurants', {
+          restaurants: data,
+          categories: categories,
+          categoryId: categoryId
+        })
       })
     })
   },

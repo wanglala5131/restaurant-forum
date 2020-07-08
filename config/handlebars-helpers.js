@@ -1,5 +1,6 @@
 module.exports = {
-  ifEqual: (a, b, options) => {
+  //不能用箭頭函式
+  ifEqual: function (a, b, options) {
     if (a === b) {
       return options.fn(this)
     } else {

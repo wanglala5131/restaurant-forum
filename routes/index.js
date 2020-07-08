@@ -24,6 +24,7 @@ module.exports = (app, passport) => {
   //前台
   app.get('/', authenticated, (req, res) => { res.redirect('/restaurants') })
   app.get('/restaurants', restController.getRestaurants)
+  app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
   //後台
   app.get('/admin', authenticatedAdmin, (req, res) => { res.redirect('/admin/restaurants') })

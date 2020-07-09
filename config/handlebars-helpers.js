@@ -6,7 +6,6 @@ module.exports = {
     if (a === b) {
       return options.fn(this)
     } else {
-      console.log(this)
       return options.inverse(this)
     }
   },

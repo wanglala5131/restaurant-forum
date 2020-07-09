@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     opening_hour: DataTypes.STRING,
     description: DataTypes.TEXT,
     image: DataTypes.STRING,
+    viewCounts: DataTypes.INTEGER
   }, {});
   Restaurant.associate = function (models) {
     Restaurant.belongsTo(models.Category)

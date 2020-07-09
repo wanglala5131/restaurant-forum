@@ -81,6 +81,18 @@ const restController = {
             })
           })
       })
+  },
+  getDashboard: (req, res) => {
+    Restaurant.findByPk(req.params.id, {
+      include: [Category, Comment]
+    })
+      .then((restaurant => {
+        const totalComment = restaurant.Comments.length
+        res.render('dashboard', {
+          restaurant: restaurant.toJSON(),
+          totalComment
+        })
+      }))
   }
 }
 

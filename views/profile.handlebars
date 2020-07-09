@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 bg-white p-4" style="border-radius:2px; border: 1px solid #d4d4d4">
     <div class="row">
-      <div class="col-4">
+      <div class="col-lg-4 col-12  mx-auto">
         {{#if pageUser.image}}
         <img class="img-responsive center-block" src="{{pageUser.image}}" style="width: 300px;margin-bottom: 25px;">
         {{else}}
@@ -10,14 +10,25 @@
           style="width: 300px;margin-bottom: 25px;">
         {{/if}}
       </div>
-      <div class="col-8 pl-4 mt-4">
+      <div class="col-lg-8 pl-4 mt-4 col-12 mx-auto">
         <h3>{{pageUser.name}}</h3>
         <p>{{pageUser.email}}</p>
+        <p>{{totalComment}} 則已評論餐廳</p>
         {{#ifEqual pageUser.id user.id}}
         <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
         {{/ifEqual}}
       </div>
-
     </div>
   </div>
-</div>
+  <div class="card w-100 mt-2">
+    <div class="card-header">
+      {{totalComment}} 則已評論餐廳
+    </div>
+    <div class="card-body">
+      {{#each pageUser.Comments}}
+      <a href="/restaurants/{{this.Restaurant.id}}" class="mx-2">
+        <img src="{{this.Restaurant.image}}"
+          style="width:80px;height:80px; border-radius:10%;box-shadow:0px 0px 1px 1px rgba(0,0,0,0.4);"></a>
+      {{/each}}
+    </div>
+  </div>

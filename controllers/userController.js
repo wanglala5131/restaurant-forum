@@ -41,16 +41,16 @@ const userController = {
     req.logout()
     res.redirect('/signin')
   },
-  getProfile: (req, res) => {
+  getUser: (req, res) => {
     User.findByPk(req.params.id)
       .then((user) => {
         return res.render('profile')
       })
   },
-  getProfileEdit: (req, res) => {
+  editUser: (req, res) => {
     User.findByPk(req.params.id)
       .then((user) => {
-        return res.render('profileEdit')
+        return res.render('editUser')
       })
   }
 }

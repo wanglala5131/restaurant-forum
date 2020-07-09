@@ -28,8 +28,8 @@ module.exports = (app, passport) => {
   app.get('/restaurants', restController.getRestaurants)
   app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
-  app.get('/users/:id', authenticated, userController.getProfile)
-  app.get('/users/:id/edit', authenticated, userController.getProfileEdit)
+  app.get('/users/:id', authenticated, userController.getUser)
+  app.get('/users/:id/edit', authenticated, userController.editUser)
 
   app.post('/comments', authenticated, commentController.postComment)
   app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment)

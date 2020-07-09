@@ -45,18 +45,30 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res) => {
+    //若非本人就導回本人的頁面
+    if (req.user.id !== Number(req.params.id)) {
+      return res.redirect(`/users/${req.user.id}`)
+    }
     User.findByPk(req.params.id)
       .then((user) => {
         return res.render('profile')
       })
   },
   editUser: (req, res) => {
+    //若非本人就導回本人的頁面
+    if (req.user.id !== Number(req.params.id)) {
+      return res.redirect(`/users/${req.user.id}/edit`)
+    }
     User.findByPk(req.params.id)
       .then((user) => {
         return res.render('editUser')
       })
   },
   putUser: (req, res) => {
+    //若非本人就導回本人的頁面
+    if (req.user.id !== Number(req.params.id)) {
+      return res.redirect(`/users/${req.user.id}/edit`)
+    }
     if (!req.body.name) {
       req.flash('error_messages', "Please enter your name")
       return res.redirect('back')

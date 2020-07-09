@@ -53,7 +53,6 @@ const restController = {
         { model: Comment, include: [User] }  //eager loading
       ]
     }).then(restaurant => {
-      console.log(restaurant.Comments[0].dataValues)
       return res.render('restaurant', {
         restaurant: restaurant.toJSON()
       })

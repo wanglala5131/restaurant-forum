@@ -45,13 +45,9 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res) => {
-    //若非本人就導回本人的頁面
-    if (req.user.id !== Number(req.params.id)) {
-      return res.redirect(`/users/${req.user.id}`)
-    }
     User.findByPk(req.params.id)
-      .then((user) => {
-        return res.render('profile')
+      .then((pageUser) => {
+        return res.render('profile', { pageUser: pageUser.toJSON() })
       })
   },
   editUser: (req, res) => {

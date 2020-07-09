@@ -2,8 +2,8 @@
   <div class="col-12 bg-white p-4" style="border-radius:2px; border: 1px solid #d4d4d4">
     <div class="row">
       <div class="col-4">
-        {{#if user.image}}
-        <img class="img-responsive center-block" src="{{user.image}}" style="width: 300px;margin-bottom: 25px;">
+        {{#if pageUser.image}}
+        <img class="img-responsive center-block" src="{{pageUser.image}}" style="width: 300px;margin-bottom: 25px;">
         {{else}}
         <img class="img-responsive center-block"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png"
@@ -11,9 +11,11 @@
         {{/if}}
       </div>
       <div class="col-8 pl-4 mt-4">
-        <h3>{{user.name}}</h3>
-        <p>{{user.email}}</p>
+        <h3>{{pageUser.name}}</h3>
+        <p>{{pageUser.email}}</p>
+        {{#ifEqual pageUser.id user.id}}
         <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
+        {{/ifEqual}}
       </div>
 
     </div>

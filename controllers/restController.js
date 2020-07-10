@@ -3,12 +3,10 @@ const User = db.User
 const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
-const Favorite = db.Favorite
 
 const pageLimit = 10
 
 const restController = {
-
   getRestaurants: (req, res) => {
     let offset = 0
     let whereQuery = {}

@@ -52,12 +52,28 @@ const userController = {
   getUser: (req, res) => {
     User.findByPk(req.params.id, {
       include: [
-        { model: Comment, include: [Restaurant] }
+        { model: Comment, include: [Restaurant] },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Restaurant, as: 'FavoritedRestaurants' }
       ]
     })
       .then((pageUser) => {
-        const totalComment = pageUser.Comments.length
-        return res.render('profile', { pageUser: pageUser.toJSON(), totalComment })
+        //取出所有的Comment對應到的餐廳id
+        const allCommentRestaurant = pageUser.Comments.map(d => (d.dataValues.RestaurantId))
+        //用set將重複餐廳id去除，並轉成陣列
+        const uniqueRestaurantId = [...new Set(allCommentRestaurant)]
+        //根據已經過濾過的id去尋找餐廳
+        Restaurant.findAll({ where: { id: uniqueRestaurantId } })
+          .then(restaurant => {
+            return res.render('profile', {
+              pageUser: pageUser.toJSON(),
+              commentRestaurants: restaurant.map(restaurant => restaurant.dataValues),
+              followers: pageUser.dataValues.Followers.map(d => d.dataValues),
+              followings: pageUser.dataValues.Followings.map(d => d.dataValues),
+              favoritedRestaurants: pageUser.dataValues.FavoritedRestaurants.map(d => d.dataValues)
+            })
+          })
       })
   },
   editUser: (req, res) => {
@@ -193,8 +209,6 @@ const userController = {
           })
       })
   }
-
-
 }
 
 module.exports = userController

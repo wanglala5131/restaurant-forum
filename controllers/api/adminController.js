@@ -19,9 +19,6 @@ const adminController = {
   },
   postRestaurant: (req, res) => {
     adminService.postRestaurant(req, res, (data) => {
-      if (data['status'] === 'error') {
-        return res.json(data)
-      }
       return res.json(data)
     })
   },

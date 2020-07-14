@@ -1,6 +1,8 @@
 const db = require('../../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminService = require('../../services/adminService')
 
@@ -12,6 +14,14 @@ const adminController = {
   },
   getRestaurant: (req, res) => {
     adminService.getRestaurant(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+  postRestaurant: (req, res) => {
+    adminService.postRestaurant(req, res, (data) => {
+      if (data['status'] === 'error') {
+        return res.json(data)
+      }
       return res.json(data)
     })
   },

@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 })
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use('/upload', express.static(__dirname + '/upload'))
 app.use(methodOverride('_method'))
 app.listen(port, () => {

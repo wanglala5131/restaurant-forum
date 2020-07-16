@@ -78,24 +78,10 @@ const adminController = {
     })
   },
   putUsers: (req, res) => {
-    //users.handlebars有將root@example.com鎖住不能改admin，避免全部都被改成user
-    return User.findByPk(req.params.id).then((user) => {
-      if (user.isAdmin) {
-        return user.update({
-          isAdmin: false,
-          updatedAt: new Date() //更新時間
-        }).then(() => {
-          req.flash('success_messages', 'User was successfully to update')
-          res.redirect('/admin/users')
-        })
-      } else {
-        return user.update({
-          isAdmin: true,
-          updatedAt: new Date()  //更新時間
-        }).then(() => {
-          req.flash('success_messages', 'User was successfully to update')
-          res.redirect('/admin/users')
-        })
+    adminService.putUsers(req, res, (data) => {
+      if (data['status'] === 'success') {
+        req.flash('success_messages', data['message'])
+        res.redirect('/admin/users')
       }
     })
   }

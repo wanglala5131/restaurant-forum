@@ -109,5 +109,29 @@ const adminService = {
       callback({ users, user: req.user })
     })
   },
+  putUsers: (req, res, callback) => {
+    //users.handlebars有將root@example.com鎖住不能改admin，避免全部都被改成user
+    return User.findByPk(req.params.id).then((user) => {
+      if (user.dataValues.email === 'root@example.com') {
+        callback({ status: 'error', message: 'root@example.com cannot be updated' })
+      } else {
+        if (user.dataValues.isAdmin) {
+          return user.update({
+            isAdmin: false,
+            updatedAt: new Date() //更新時間
+          }).then(() => {
+            callback({ status: 'success', message: 'User was successfully to update as a user' })
+          })
+        } else {
+          return user.update({
+            isAdmin: true,
+            updatedAt: new Date()  //更新時間
+          }).then(() => {
+            callback({ status: 'success', message: 'User was successfully to update as a admin' })
+          })
+        }
+      }
+    })
+  }
 }
 module.exports = adminService

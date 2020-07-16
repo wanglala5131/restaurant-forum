@@ -64,19 +64,17 @@ const adminController = {
     })
   },
   getUsers: (req, res) => {
-    return User.findAll({ raw: true }).then(users => {
-      //更改isAdmin的顯示
-      for (let i = 0; i < users.length; i++) {
-
-        if (users[i].isAdmin) {
-          users[i].isAdmin = 'admin'
-          users[i].setAs = 'set as user'
+    adminService.getUsers(req, res, (data) => {
+      for (let i = 0; i < data.users.length; i++) {
+        if (data.users[i].isAdmin) {
+          data.users[i].isAdmin = 'admin'
+          data.users[i].setAs = 'set as user'
         } else {
-          users[i].isAdmin = 'user'
-          users[i].setAs = 'set as admin'
+          data.users[i].isAdmin = 'user'
+          data.users[i].setAs = 'set as admin'
         }
       }
-      return res.render('admin/users', { users, user: req.user, isAuthenticated: req.isAuthenticated })
+      return res.render('admin/users', { users: data.users, user: req.user, isAuthenticated: req.isAuthenticated })
     })
   },
   putUsers: (req, res) => {

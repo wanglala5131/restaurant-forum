@@ -1,5 +1,4 @@
 const db = require('../models')
-const restaurant = require('../models/restaurant')
 const User = db.User
 const Restaurant = db.Restaurant
 const Category = db.Category
@@ -36,7 +35,7 @@ const restController = {
         raw: true,
         nest: true
       }).then(categories => {
-        callback({
+        return callback({
           restaurants: data,
           categories: categories,
           categoryId: categoryId,
